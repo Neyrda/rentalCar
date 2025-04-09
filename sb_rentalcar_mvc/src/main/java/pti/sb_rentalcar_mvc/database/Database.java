@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+import org.hibernate.query.SelectionQuery;
 import org.springframework.stereotype.Repository;
 
 import pti.sb_rentalcar_mvc.model.Booking;
@@ -75,10 +76,66 @@ public class Database {
 		return car;
 	}
 
-	
+	public List<Car> getAllCars() {
+		
+		List<Car> allCars = null;
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		SelectionQuery<Car> sq = session.createSelectionQuery(
+				"SELECT c FROM Car c", Car.class);
+		
+		allCars = sq.getResultList();
+		
+		tx.commit();
+		session.close();
+		
+		
+		return allCars;
+	}
+
+	public List<Booking> getAllBooking() {
+		
+		List<Booking> savedBookings = null;
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		SelectionQuery<Booking> sq =session.createSelectionQuery(
+				"SELECT b FROM Booking b", Booking.class);
+		
+		savedBookings = sq.getResultList();
+		
+		tx.commit();
+		session.close();
+		
+		return savedBookings;
+	}
+
+	public void saveCar(Car newCar) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.persist(newCar);
+		
+		tx.commit();
+		session.close();
+		
+	}
 
 
-	
-	
+	public void modifyCar(Car car) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.merge(car);
+		
+		tx.commit();
+		session.close();
+		
+	}
 
 }

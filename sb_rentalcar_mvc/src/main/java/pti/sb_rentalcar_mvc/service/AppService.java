@@ -8,9 +8,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import pti.sb_rentalcar_mvc.database.Database;
+import pti.sb_rentalcar_mvc.dto.AdminDto;
 import pti.sb_rentalcar_mvc.dto.BookingDto;
 import pti.sb_rentalcar_mvc.dto.CarDto;
 import pti.sb_rentalcar_mvc.dto.CarListDto;
+import pti.sb_rentalcar_mvc.dto.EditCarDto;
 import pti.sb_rentalcar_mvc.model.Booking;
 import pti.sb_rentalcar_mvc.model.Car;
 
@@ -93,6 +95,98 @@ public class AppService {
 		
 		return carDto;
 	}
+
+	public AdminDto getAllBooking() {
+		
+		AdminDto adminDto = null;
+		BookingDto bookingDto = null;
+		CarDto carDto = null;
+		
+		List<BookingDto> bookingDtos = new ArrayList<>();
+		List<CarDto> carDtos = new ArrayList<>();
+		
+		List<Car> allCars = database.getAllCars();
+		
+		for(int carIndex= 0; carIndex < allCars.size(); carIndex++) {
+			Car currentCar = allCars.get(carIndex);
+			carDto = new CarDto(
+					currentCar.getId(),
+					currentCar.getType(),
+					currentCar.getPrice());
+			carDtos.add(carDto);
+		}
+		
+		List<Booking> savedBookings = database.getAllBooking();
+		
+		for(int bookingIndex = 0; bookingIndex < savedBookings.size(); bookingIndex++) {
+			Booking currentBooking = savedBookings.get(bookingIndex);
+			bookingDto = new BookingDto(
+					currentBooking.getCarId(),
+					currentBooking.getStartDate(),
+					currentBooking.getEndDate());
+			
+			bookingDtos.add(bookingDto);
+		}
+		
+		adminDto = new AdminDto(bookingDtos, carDtos);
+		
+		return adminDto;
+	}
+
+	public void addCar(String type, int price, boolean active) {
+		
+		Car newCar = new Car(
+				type,
+				price,
+				active,
+				null);
+		
+		database.saveCar(newCar);
+		
+	}
+
+	public EditCarDto getCarById(int carId) {
+		
+		EditCarDto ecd = null;
+		
+		Car car = database.getCarByCarId(carId);
+		
+		if(car != null) {
+			ecd = new EditCarDto(
+					carId,
+					car.getType(),
+					car.getPrice(),
+					car.isActive());
+		}
+		
+		return ecd;
+	}
+
+	public void modifyCar(int carId, String type, int price, boolean active) {
+		
+		EditCarDto ecd = null;
+		Car car = database.getCarByCarId(carId);
+		
+		if(car != null) {
+			
+			car.setType(type);
+			car.setPrice(price);
+			car.setActive(active);
+			database.modifyCar(car);
+			
+			ecd = new EditCarDto(
+					car.getId(),
+					car.getType(),
+					car.getPrice(),
+					car.isActive());
+			
+		}
+	}
+
+
+
+
+
 
 	
 

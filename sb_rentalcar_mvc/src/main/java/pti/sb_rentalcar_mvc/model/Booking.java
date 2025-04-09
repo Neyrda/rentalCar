@@ -38,7 +38,7 @@ public class Booking {
 	
 	@Column(name="carid")
 	private int carId;
-
+	
 	public Booking(String name, String email, String address, String phone, LocalDate startDate, LocalDate endDate,
 			int carId) {
 		super();
@@ -49,6 +49,12 @@ public class Booking {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.carId = carId;
+	}
+	
+	
+
+	public Booking() {
+		super();
 	}
 
 	public int getId() {

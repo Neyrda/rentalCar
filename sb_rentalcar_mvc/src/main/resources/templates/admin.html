@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin page</title>
+	<style>
+		.container {
+			display: block;
+			align-items: center;
+			gap: 20px;
+			width: 100%;
+		}
+		table{
+			width: 70%;
+			margin: 20px auto;
+			border: 2px solid #FF1493;
+			border-collepse: collepse; 
+			border-spacing: 0;
+			background-color: #FFF5EE;
+			}
+		th{
+			border: 2px solid #FF1493;
+			padding: 10px;
+			border-collepse: collepse;
+			text-align: center;
+			}
+		td{
+			border: 2px solid #FF1493;
+			padding: 8px;
+			border-collepse: collepse;
+			text-align: center;
+			}
+		 body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #FF1493;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #000000;
+        }
+
+        option {
+            font-size: 14px;
+            padding: 5px;
+        }
+        .button-container {
+      margin-top: 50px;
+	    }
+	    .button {
+	      display: inline-block;
+	      padding: 15px 30px;
+	      margin: 10px;
+	      font-size: 18px;
+	      color: white;
+	      background: linear-gradient(45deg, #FFF0F5, #DA70D6);
+	      border: none;
+	      border-radius: 25px;
+	      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+	      cursor: pointer;
+	      transition: all 0.3s ease-in-out;
+	      text-decoration: none;
+	    }
+	    .button:hover {
+	      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+	      transform: scale(1.05);
+	    }
+        
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div th:if="${adminDto != null}">
+	
+			<table>
+				<tr>
+					<th> Car ID </th>
+					<th> Start date </th>
+					<th> End date </th>
+				</tr>
+				<tr th:each="bookingDto : ${adminDto.getAllBookings()}">
+					<td th:text="${bookingDto.getCarId()}"></td>
+					<td th:text="${bookingDto.getStartDate()}"></td>
+					<td th:text="${bookingDto.getEndDate()}"></td>
+				</tr>
+			
+			</table>
+		</div>
+		
+		<form action="admin/editcar" method="get">
+			<select name="cid" id="car" required>
+				<option> Select the vehicle to be modified</option>
+				<option th:each="carDto : ${adminDto.getAllCars()}"th:value="${carDto.getId()}" th:text="${carDto.getId()} + ' - ' + ${carDto.getType()}">
+			
+			</select>
+			
+			<input type="submit" value="MODIFY"/>
+		
+		</form>
+		
+		<div class="button-container">
+			<a href="/admin/newcar" class="button"> New Car</a>
+		
+		</div>
+	</div>
+
+
+</body>
+</html>

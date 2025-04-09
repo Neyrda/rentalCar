@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import pti.sb_rentalcar_mvc.dto.AdminDto;
 import pti.sb_rentalcar_mvc.dto.BookingDto;
 import pti.sb_rentalcar_mvc.dto.CarDto;
 import pti.sb_rentalcar_mvc.dto.CarListDto;
+import pti.sb_rentalcar_mvc.dto.EditCarDto;
 import pti.sb_rentalcar_mvc.service.AppService;
 
 @Controller
@@ -78,6 +80,68 @@ public class AppController {
 		
 		
 		return "thanks.html";
+	}
+	
+	@GetMapping("/admin")
+	public String adminMainPage(Model model) {
+		
+		AdminDto adminDto = service.getAllBooking();
+		
+		model.addAttribute("adminDto", adminDto);
+		
+		return "admin.html";
+	}
+	
+	@GetMapping("/admin/newcar")
+	public String addCarMain(Model model) {
+		
+		model.addAttribute("actiontype", "new");
+		
+		return "editcar.html";
+		
+	}
+	
+	@PostMapping("/admin/newcar")
+	public String addCar(
+			Model model,
+			@RequestParam("ctype") String type,
+			@RequestParam("cprice") int price,
+			@RequestParam("cactive") boolean active) {
+		
+		service.addCar(type, price, active);
+		
+		return "editcar.html";
+		
+	}
+	
+	@GetMapping("/admin/editcar")
+	public String modifyCar(
+			Model model,
+			@RequestParam("cid") int carId) {
+		
+		EditCarDto ecd = service.getCarById(carId);
+	
+		model.addAttribute("ecd", ecd);
+		
+		return "editcar.html";
+	}
+	
+	@PostMapping("/admin/editcar/finish")
+	public String finishCar(
+			Model model,
+			@RequestParam("cid") int carId,
+			@RequestParam("type") String type,
+			@RequestParam("price") int price,
+			@RequestParam("active") boolean active) {
+		
+		service.modifyCar(carId, type, price, active);
+		
+		AdminDto adminDto = service.getAllBooking();
+		
+		model.addAttribute("adminDto", adminDto);
+		
+		return "redirect:/admin";
+		
 	}
 	
 	

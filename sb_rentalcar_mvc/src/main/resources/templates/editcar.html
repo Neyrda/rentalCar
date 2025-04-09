@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Changing cars</title>
+	<style>
+	    form {
+	        max-width: 400px;
+	        margin: 20px auto;
+	        padding: 20px;
+	        border: 1px solid #ccc;
+	        border-radius: 10px;
+	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	        font-family: Georgia, sans-serif;
+	        background-color: #f9f9f9;
+	    }
+	    p {
+	        margin-bottom: 10px;
+	        font-size: 14px;
+	        color: #333;
+	        font-weight: bold;
+	    }
+	    input[type="text"],
+	    input[type="email"],
+	    input[type="submit"] {
+	        width: 95%;
+	        padding: 10px;
+	        margin-bottom: 15px;
+	        border: 1px solid #ccc;
+	        border-radius: 5px;
+	        font-size: 14px;
+	    }
+	    input[type="submit"] {
+	        background-color: #FF1493;
+	        color: white;
+	        font-weight: bold;
+	        cursor: pointer;
+	    }
+	    input[type="submit"]:hover {
+	        background-color: #000000;
+	    }
+	</style>
+</head>
+<body>
+	<div th:if="${actiontype == 'new'}">
+		<form action="/admin/newcar" method="post">
+			<p> Type of car: </p>
+			<input type="text" name="ctype" required/>
+			<p>Price of car: </p>
+			<input type="text" name="cprice" required/>
+			<p>Active or not</p>
+			<input type="text" name="cactive" placeholder="true or false" required/>
+			
+			<input type="submit" value="Save car">
+		
+		</form>
+	</div>
+	
+	<div th:if="${ecd != null}">
+		<form action="/admin/editcar/finish" method="post">
+			<input type="hidden" name="cid" th:value="${ecd.getId()}"/>
+			<p> Type of car: </p>
+			<input type="text" name="type" th:value="${ecd.getType()}" required/>
+			<p> Price of car: </p>
+			<input type="text" name="price" th:value="${ecd.getPrice()}" required/>
+			<p> Active or not: </p>
+			<select name="active" required>
+				<option th:value="true" th:selected="${ecd.isActive()}"> Active</option>
+				<option th:value="false" th:selected="${ecd.isActive()}">Inactive</option>
+			</select>
+			
+			<input type="submit" value="Edit car"/>
+		
+		</form>
+	
+	</div>
+
+</body>
+</html>
