@@ -164,7 +164,7 @@ public class AppService {
 
 	public void modifyCar(int carId, String type, int price, boolean active) {
 		
-		EditCarDto ecd = null;
+		
 		Car car = database.getCarByCarId(carId);
 		
 		if(car != null) {
@@ -174,22 +174,9 @@ public class AppService {
 			car.setActive(active);
 			database.modifyCar(car);
 			
-			ecd = new EditCarDto(
-					car.getId(),
-					car.getType(),
-					car.getPrice(),
-					car.isActive());
+
 			
 		}
 	}
-
-
-
-
-
-
-	
-
-	
 
 }
