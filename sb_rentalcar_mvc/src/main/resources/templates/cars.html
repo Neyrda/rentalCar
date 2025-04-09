@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Available cars</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #FF1493;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #000000;
+        }
+
+        option {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+	<form action="/cars/startbooking" method="get">
+	
+		<input type="hidden" name="start_date" th:value="${carList.getStartDate()}"/>
+		<input type="hidden" name="end_date" th:value="${carList.getEndDate()}"/>
+		<select name="cid" id="car" required>
+			<option> Choose one from the available cars </option>
+			<option th:each= "carDto : ${carList.getCarList()}" th:value="${carDto.getId()}" th:text="${carDto.getType()} + ' - ' + ${carDto.getPrice()} + ' HUF/day'" ></option>
+	
+		</select>
+		
+		<input type="submit" value="Choose"/>
+	
+	</form>
+
+</body>
+</html>

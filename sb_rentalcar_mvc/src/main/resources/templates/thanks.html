@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Confirmation</title>
+	<style>
+	    .centered-text {
+	        text-align: center;
+	        font-family: Georgia, sans-serif;
+	    }
+	
+	    .highlighted {
+	        color: red;
+	        font-weight: bold;
+	    }
+	</style>
+
+</head>
+<body>
+
+	<h1 class="centered-text">Thank you for your reservation!</h1>
+	<p class="centered-text"> You have reserved the following vehicle: </p>
+	<p class="centered-text highlighted" th:text="${carDto.getType()}"></p>
+	<p class="centered-text"> The following amount must be paid: </p>
+	<p class="centered-text highlighted" th:text="${carDto.getTotalPrice()} + ' HUF'" ></p>
+	<p class="centered-text"> Please wait for our confirmation email! </p>
+
+</body>
+</html>
