@@ -86,7 +86,12 @@ public class Car {
 	
 	public String getImageBase64() {
 		
-		String base64String = Base64.getEncoder().encodeToString(image);
+		String base64String = null;
+		
+		if(image != null) {
+			base64String = Base64.getEncoder().encodeToString(image);
+		}
+		
 		
 		return base64String;
 	}

@@ -1,11 +1,13 @@
 package pti.sb_rentalcar_mvc.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import pti.sb_rentalcar_mvc.database.Database;
 import pti.sb_rentalcar_mvc.dto.AdminDto;
@@ -156,7 +158,8 @@ public class AppService {
 					carId,
 					car.getType(),
 					car.getPrice(),
-					car.isActive());
+					car.isActive(),
+					car.getImageBase64());
 		}
 		
 		return ecd;
@@ -177,6 +180,19 @@ public class AppService {
 
 			
 		}
+	}
+
+	public void uploadImage(MultipartFile file, int carId) throws IOException {
+		
+		Car car = null;
+		
+		car = database.getCarByCarId(carId);
+		
+		byte[] bFile = file.getBytes();
+		car.setImage(bFile);
+		database.saveImage(car);
+		
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 package pti.sb_rentalcar_mvc.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Controller;
@@ -7,12 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import pti.sb_rentalcar_mvc.database.Database;
 import pti.sb_rentalcar_mvc.dto.AdminDto;
 import pti.sb_rentalcar_mvc.dto.BookingDto;
 import pti.sb_rentalcar_mvc.dto.CarDto;
 import pti.sb_rentalcar_mvc.dto.CarListDto;
 import pti.sb_rentalcar_mvc.dto.EditCarDto;
+import pti.sb_rentalcar_mvc.model.Car;
 import pti.sb_rentalcar_mvc.service.AppService;
 
 @Controller
@@ -142,6 +146,19 @@ public class AppController {
 		
 		return "redirect:/admin";
 		
+	}
+	
+	@PostMapping("/admin/upload")
+	public String uploadFromWeb(
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("cid") int carId) throws IOException {
+	
+		
+		service.uploadImage(file, carId);
+		
+	
+		
+		return "redirect:/admin";
 	}
 	
 	

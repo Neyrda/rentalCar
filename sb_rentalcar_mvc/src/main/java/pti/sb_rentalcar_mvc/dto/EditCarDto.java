@@ -6,6 +6,7 @@ public class EditCarDto {
 	private String type;
 	private int price;
 	private boolean active;
+	private String base64Image;
 	
 	public EditCarDto(int id, String type, int price, boolean active) {
 		super();
@@ -14,6 +15,19 @@ public class EditCarDto {
 		this.price = price;
 		this.active = active;
 	}
+	
+	
+
+	public EditCarDto(int id, String type, int price, boolean active, String base64Image) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.price = price;
+		this.active = active;
+		this.base64Image = base64Image;
+	}
+
+
 
 	public int getId() {
 		return id;
@@ -46,6 +60,16 @@ public class EditCarDto {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+	public String getBase64Image() {
+		return base64Image;
+	}
+
+	public void setBase64Image(String base64Image) {
+		this.base64Image = base64Image;
+	}
+	
+	
 	
 	
 	

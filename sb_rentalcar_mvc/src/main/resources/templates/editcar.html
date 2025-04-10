@@ -69,11 +69,21 @@
 				<option th:value="false" th:selected="${ecd.isActive()}">Inactive</option>
 			</select>
 			
+			<img th:if="${ecd.getBase64Image() != null}" th:src="'data:image/jpeg;base64,' + ${ecd.getBase64Image()}"/>
+			
 			<input type="submit" value="Edit car"/>
 		
 		</form>
 	
 	</div>
+	
+	<form action="/admin/upload" enctype="multipart/form-data" method="post">
+		<input type="hidden" name="cid" th:value="${ecd.getId()}"/>
+	
+		<input type="file" name="file"/>
+		<input type="submit" value="Upload" />
+		
+	</form>
 
 </body>
 </html>

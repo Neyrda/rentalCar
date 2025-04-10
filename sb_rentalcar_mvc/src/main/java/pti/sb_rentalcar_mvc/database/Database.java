@@ -6,6 +6,9 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.query.SelectionQuery;
@@ -25,6 +28,10 @@ public class Database {
 		cfg.configure();
 		
 		this.sessionFactory = cfg.buildSessionFactory();
+		
+		StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+		
+		sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 	}
 
 	public List<Car> findAvailableCars(LocalDate startDate, LocalDate endDate) {
@@ -136,6 +143,51 @@ public class Database {
 		tx.commit();
 		session.close();
 		
+	}
+
+	public void saveImage(Car imageToUpload) {
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		session.merge(imageToUpload);
+		
+		tx.commit();
+		session.close();
+		
+	}
+
+	public Car getImageById(int i) {
+		
+		Car car = null;
+		
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		car = session.get(Car.class, i);
+		
+		tx.commit();
+		session.close();
+
+		return car;
+	}
+	
+	public void close() {
+		sessionFactory.close();
+	}
+
+	public Car getCarById(int carId) {
+		
+		Car car = null;
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		car = session.get(Car.class, carId);
+		
+		tx.commit();
+		session.close();
+		
+		return car;
 	}
 
 }
